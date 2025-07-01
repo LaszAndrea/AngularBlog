@@ -1,0 +1,20 @@
+<div class="auth-container">
+  <h2>Bejelentkezés</h2>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required email [(ngModel)]="email" #emailField="ngModel"
+      placeholder="email@pelda.com" />
+    <div class="error" *ngIf="emailField.invalid && emailField.touched">
+      Érvényes email szükséges.
+    </div>
+
+    <input type="password" id="password" name="password" required minlength="6" [(ngModel)]="password"
+      #passwordField="ngModel" placeholder="Jelszó" />
+    <div class="error" *ngIf="passwordField.invalid && passwordField.touched">
+      Legalább 6 karakter kell.
+    </div>
+
+
+    <button type="submit" [disabled]="loginForm.invalid">Bejelentkezés</button>
+  </form>
+</div>

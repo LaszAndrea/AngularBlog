@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: url('https://www.transparenttextures.com/patterns/cream-paper.png') repeat;
+  background-color: #faf9f6;
+  font-family: 'Georgia', serif;
+  color: #3a3a3a;
+  min-height: 100vh;
+}

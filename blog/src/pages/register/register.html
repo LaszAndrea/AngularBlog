@@ -1,0 +1,63 @@
+<body>
+<div class="auth-container">
+  <h2>Regisztráció</h2>
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
+    <label for="name">Teljes név</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      required
+      [(ngModel)]="user.name"
+      #name="ngModel"
+      placeholder="Írd be a neved"
+    />
+    <div class="error" *ngIf="name.invalid && name.touched">Kérlek, add meg a neved!</div>
+
+    <label for="nickname">Becenév</label>
+    <input
+      type="text"
+      id="nickname"
+      name="nickname"
+      required
+      minlength="3"
+      [(ngModel)]="user.nickname"
+      #nickname="ngModel"
+      placeholder="Válassz becenevet"
+    />
+    <div class="error" *ngIf="nickname.invalid && nickname.touched">
+      Legalább 3 karakter kell.
+    </div>
+
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      email
+      [(ngModel)]="user.email"
+      #email="ngModel"
+      placeholder="email@pelda.com"
+    />
+    <div class="error" *ngIf="email.invalid && email.touched">Érvényes email szükséges.</div>
+
+    <label for="password">Jelszó</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      required
+      minlength="6"
+      [(ngModel)]="user.password"
+      #password="ngModel"
+      placeholder="Legalább 6 karakter"
+    />
+    <div class="error" *ngIf="password.invalid && password.touched">
+      Legalább 6 karakter kell.
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Regisztráció</button>
+  </form>
+</div>
+</body>

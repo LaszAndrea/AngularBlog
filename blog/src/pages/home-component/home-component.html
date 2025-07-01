@@ -1,0 +1,77 @@
+<div class="container">
+
+  <header>
+    <h1>Üdvözöllek, {{ userName }}!</h1>
+    <button (click)="logout()">Kijelentkezés</button>
+  </header>
+
+  <section class="new-post">
+    <h2>Új bejegyzés létrehozása</h2>
+    <input type="text" placeholder="Cím" name="title" [(ngModel)]="blogpost.title" #title="ngModel" required
+      minlength="3" />
+    <div *ngIf="title.invalid && (title.dirty || title.touched)" class="error">
+      <small *ngIf="title.errors?.['required']">A cím megadása kötelező.</small>
+      <small *ngIf="title.errors?.['minlength']">A címnek legalább 3 karakterből kell állnia.</small>
+    </div>
+    <textarea rows="4" placeholder="Tartalom" name="content" [(ngModel)]="blogpost.content" #content="ngModel" required
+      minlength="3"></textarea>
+    <div *ngIf="content.invalid && (content.dirty || content.touched)" class="error">
+      <small *ngIf="content.errors?.['required']">A tartalom megadása kötelező.</small>
+      <small *ngIf="content.errors?.['minlength']">A tartalomnak legalább 3 karakterből kell állnia.</small>
+    </div>
+
+    <input type="text" placeholder="Kép url-je" [(ngModel)]="blogpost.pictureUrl" />
+
+    <button (click)="addPost()" [disabled]="title.invalid || content.invalid">
+      Hozzáadás
+    </button>
+  </section>
+
+  <section class="posts">
+    <h2>Bejegyzések</h2>
+    <div *ngIf="posts.length === 0">Nincsenek bejegyzések.</div>
+    <div class="post-card" *ngFor="let post of posts">
+      <img class="post-image"
+        [src]="post.pictureUrl || 'https://static.vecteezy.com/system/resources/previews/016/916/479/original/placeholder-icon-design-free-vector.jpg'"
+        alt="Bejegyzés képe" />
+
+      <div class="post-content">
+        <ng-container *ngIf="editingPostId === post._id; else viewMode">
+          <input type="text" [(ngModel)]="editedPost.title" placeholder="Cím" name="editTitle" #editTitle="ngModel"
+            required minlength="3" />
+          <div *ngIf="editTitle.invalid && (editTitle.dirty || editTitle.touched)" class="error">
+            <small *ngIf="editTitle.errors?.['required']">A cím megadása kötelező.</small>
+            <small *ngIf="editTitle.errors?.['minlength']">A címnek legalább 3 karakterből kell állnia.</small>
+          </div>
+
+          <textarea rows="4" [(ngModel)]="editedPost.content" placeholder="Tartalom" name="editContent"
+            #editContent="ngModel" required minlength="3"></textarea>
+          <div *ngIf="editContent.invalid && (editContent.dirty || editContent.touched)" class="error">
+            <small *ngIf="editContent.errors?.['required']">A tartalom megadása kötelező.</small>
+            <small *ngIf="editContent.errors?.['minlength']">A tartalomnak legalább 3 karakterből kell állnia.</small>
+          </div>
+
+          <input type="text" [(ngModel)]="editedPost.pictureUrl" placeholder="Kép URL" />
+
+          <button (click)="saveEdit(post)" [disabled]="editTitle.invalid || editContent.invalid">
+            Mentés
+          </button>
+
+          <button (click)="cancelEdit()">Mégse</button>
+        </ng-container>
+
+        <ng-template #viewMode>
+          <h3>{{ post.title }}</h3>
+          <small>
+            {{ post.author }} - {{ post.date | date: 'yyyy.MM.dd HH:mm' }}
+          </small>
+          <p>{{ post.content }}</p>
+          <div *ngIf="post.userId === currentUserId">
+            <button class="edit-btn" (click)="editPost(post)">✏️</button>
+            <button class="delete-btn" (click)="deletePost(post)">🗑️</button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </section>
+</div>
